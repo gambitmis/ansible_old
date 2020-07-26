@@ -1,1 +1,21 @@
-
+---
+- name: setup repository
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - yum-utils
+    
+- name: add docker repo
+  yum_repository:
+    name: docker
+    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+    
+ - name: install docker
+   yum:
+     name: "{{ packages }}"
+   vars:
+     packages:
+     - docker-ce
+     - docker-ce-cli
+     - containerd.io
