@@ -1,27 +1,30 @@
 ---
-- name: setup repository
-  yum:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - yum-utils
+- name: setup docker on centos8
+  hosts: docker
+  tasks:
+  - name: setup repository
+    yum:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - yum-utils
     
-- name: add docker repo
-  yum_repository:
-    name: docker
-    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+  - name: add docker repo
+    yum_repository:
+      name: docker
+      baseurl: https://download.docker.com/linux/centos/docker-ce.repo
     
-- name: install docker
-  yum:
-    name: "{{ packages }}"
-  vars:
-    packages:
-    - docker-ce
-    - docker-ce-cli
-    - containerd.io
+  - name: install docker
+    yum:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
 
-- name: enable docker service
-  systemd:
-    state: started
-    name: docker
-    enabled: yes
+  - name: enable docker service
+    systemd:
+      state: started
+      name: docker
+      enabled: yes
