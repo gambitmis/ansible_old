@@ -1,0 +1,5 @@
+---
+- name: Apply configuration nginx
+  hosts: nginx
+  tasks:
+  
