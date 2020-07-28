@@ -20,6 +20,8 @@
   - name: enable http firewalld
     firewalld:
       service: "{{ services }}"
+      permanent: yes
+      state: enabled
     vars:
       services:
       - http
