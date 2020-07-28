@@ -1,0 +1,13 @@
+---
+- name: Setup Nginx from Official Repository
+  hosts: nginx
+  tasks:
+  - name: Add Nginx Mainline Repository
+    yum_repository:
+      name: nginx
+      description: Nginx Mainline repo
+      baseurl: https://nginx.org/packages/mainline/centos/8/$basearch/
+  - name: Install Nginx Mainline
+    yum: name=httpd; state=latest
+  - name: Start nginx service
+    systemd: name=nginx; state=started;
