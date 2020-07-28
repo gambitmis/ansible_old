@@ -7,7 +7,12 @@
       name: nginx
       description: Nginx Mainline repo
       baseurl: https://nginx.org/packages/mainline/centos/8/$basearch/
+      enabled: yes
   - name: Install Nginx Mainline
-    yum: name=nginx; state=latest
+    yum:
+      name: nginx
+      state: latest
   - name: Start nginx service
-    systemd: name=nginx; state=started;
+    systemd:
+      name: nginx
+      state: started
