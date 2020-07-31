@@ -9,8 +9,33 @@
     enabled: yes
     gpgcheck: yes
     gpgkey: '{{ gpg }}'
-    vars:
-      - https://packagecloud.io/prometheus-rpm/release/gpgkey
-      - https://raw.githubusercontent.com/lest/prometheus-rpm/master/RPM-GPG-KEY-prometheus-rpm
+    vars: 
+      gpg:
+        - https://packagecloud.io/prometheus-rpm/release/gpgkey
+        - https://raw.githubusercontent.com/lest/prometheus-rpm/master/RPM-GPG-KEY-prometheus-rpm
     metadata_expire: 300
-    
+  - name: Install Prometheus-server and Node Exporter
+    yum:
+      name: '{{ packages }}'
+      vars:
+        packages:
+          - prometheus2
+          - node_exporter
+  - name: Start Prometheus Server and Node_exporter
+    systemd:
+      name: '{{ services }}'
+      vars:
+        services:
+          - prometheus
+          - node_exporter
+      state: started
+  - name: enable prometheus web portal on firewalld
+    firewalld:
+      port: 9090/tcp
+      permanent: yes
+      state: enabled
+  - name: enable node_exporter on firewalld
+    firewalld:
+      port: 9100/tcp
+      permanent: yes
+      state: enabled
