@@ -1,0 +1,16 @@
+---
+- name: setup prometheus server
+  hosts: prometheus-server
+  tasks:
+  - name: Add yum repository for Prometheus
+    yum_repository: prometheus
+    descriptions: Prometheus repository for Centos
+    baseurl: https://packagecloud.io/prometheus-rpm/release/el/$releasever/$basearch
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: '{{ gpg }}'
+    vars:
+      - https://packagecloud.io/prometheus-rpm/release/gpgkey
+      - https://raw.githubusercontent.com/lest/prometheus-rpm/master/RPM-GPG-KEY-prometheus-rpm
+    metadata_expire: 300
+    
