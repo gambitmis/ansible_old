@@ -1,0 +1,4 @@
+[prometheus-server]
+localhost
+[nginx]
+localhost
