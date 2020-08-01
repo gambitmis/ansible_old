@@ -2,34 +2,35 @@
 - name: setup prometheus server
   hosts: prometheus-server
   tasks:
-  - name: Add yum repository for Prometheus
+
+  - name: Add prometheus repository
     yum_repository:
       name: prometheus
-      descriptions: Prometheus repository for Centos
       baseurl: https://packagecloud.io/prometheus-rpm/release/el/$releasever/$basearch
-      enabled: yes
+      description: prometheus repositry for centos
       gpgcheck: yes
-      gpgkey: '{{ gpg }}'
-      vars: 
-        gpg:
-          - https://packagecloud.io/prometheus-rpm/release/gpgkey
-          - https://raw.githubusercontent.com/lest/prometheus-rpm/master/RPM-GPG-KEY-prometheus-rpm
-    metadata_expire: 300
-  - name: Install Prometheus-server and Node Exporter
+      gpgkey:
+        - https://packagecloud.io/prometheus-rpm/release/gpgkey
+        - https://raw.githubusercontent.com/lest/prometheus-rpm/master/RPM-GPG-KEY-prometheus-rpm
+      enabled: yes
+      metadata_expire: 300
+
+  - name: Install proemtheus and node-exporter
     yum:
-      name: '{{ packages }}'
-      vars:
-        packages:
-          - prometheus2
-          - node_exporter
-  - name: Start Prometheus Server and Node_exporter
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+      - prometheus2
+      - node_exporter
+
+  - name: Start service prometheus and node-exporter
     systemd:
-      name: '{{ services }}'
-      vars:
-        services:
-          - prometheus
-          - node_exporter
+      name: "{{ item }}"
       state: started
+    with_items:
+      - prometheus
+      - node_exporter
   - name: enable prometheus web portal on firewalld
     firewalld:
       port: 9090/tcp
