@@ -2,3 +2,18 @@
 - name: Install Maraidb on Centos8
   hosts: mariadb
   tasks:
+  - name: Install Maraidb
+    yum:
+      name: mariadb-server
+      state: present
+
+  - name: Start service Mariadb
+    systemd:
+      name: mariadb
+      state: started
+
+  - name: Allow connection to mariadb on firewalld
+    firewalld:
+      port: 3306/tcp
+      state: enabled
+      permanent: yes
