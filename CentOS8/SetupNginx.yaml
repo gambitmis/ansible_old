@@ -17,13 +17,12 @@
     systemd:
       name: nginx
       state: started
-  - name: enable http on firewalld
+      enabled: yes
+  - name: enable http and https on firewalld
     firewalld:
-      service: http
+      service: "{{ item }}"
       permanent: yes
       state: enabled
-  - name: enable https on firewalld
-    firewalld:
-      service: https
-      permanent: yes
-      state: enabled
+    with_items:
+      - http
+      - https
