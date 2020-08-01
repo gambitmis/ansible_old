@@ -31,13 +31,13 @@
     with_items:
       - prometheus
       - node_exporter
-  - name: enable prometheus web portal on firewalld
+
+  - name: Allow prometheus and node_exporter on firewalld
     firewalld:
-      port: 9090/tcp
+      port: "{{ item }}"
       permanent: yes
       state: enabled
-  - name: enable node_exporter on firewalld
-    firewalld:
-      port: 9100/tcp
-      permanent: yes
-      state: enabled
+    with_items:
+      - '9090/tcp'
+      - '9100/tcp'
+
