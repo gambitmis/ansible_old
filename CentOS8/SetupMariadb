@@ -1,6 +1,6 @@
 ---
 - name: Install Maraidb on Centos8
-  hosts: maraidb
+  hosts: mariadb
   tasks:
   - name: Install Maraidb
     yum:
