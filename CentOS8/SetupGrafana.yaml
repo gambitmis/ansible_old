@@ -1,0 +1,27 @@
+---
+- name: Setup Grafana on Centos8
+  hosts: grafana
+  tasks:
+    - name: yum install grafana
+      yum:
+        name: "{{ package }}"
+        state: present
+      vars:
+        package:
+          - grafana
+          - grafana-prometheus
+          - grafana-influxdb
+          - grafana-elasticsearch
+          - grafana-mysql
+
+    - name: Start service grafana
+      systemd:
+        name: grafana-server
+        state: started
+        enabled: yes
+
+    - name: Allow to connect grafana on firewalld
+      firewalld:
+        port: 3000/tcp
+        permanent: yes
+        state: enabled
