@@ -2,25 +2,3 @@
 - name: Install Maraidb on Centos8
   hosts: mariadb
   tasks:
-  - name: Install Maraidb
-    yum:
-      name: mariadb
-      
-  - name: Start Prometheus Server and Node_exporter
-    systemd:
-      name: '{{ services }}'
-      vars:
-        services:
-          - prometheus
-          - node_exporter
-      state: started
-  - name: enable prometheus web portal on firewalld
-    firewalld:
-      port: 9090/tcp
-      permanent: yes
-      state: enabled
-  - name: enable node_exporter on firewalld
-    firewalld:
-      port: 9100/tcp
-      permanent: yes
-      state: enabled
