@@ -1,0 +1,40 @@
+---
+- name: setup prometheus node exporter
+  hosts: prometheus node exporter
+  tasks:
+
+  - name: Add prometheus repository
+    yum_repository:
+      name: prometheus
+      baseurl: https://packagecloud.io/prometheus-rpm/release/el/$releasever/$basearch
+      description: prometheus repositry for centos
+      gpgcheck: yes
+      gpgkey:
+        - https://packagecloud.io/prometheus-rpm/release/gpgkey
+        - https://raw.githubusercontent.com/lest/prometheus-rpm/master/RPM-GPG-KEY-prometheus-rpm
+      enabled: yes
+      metadata_expire: 300
+
+  - name: Install proemtheus and node-exporter
+    yum:
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+      - node_exporter
+
+  - name: Start service prometheus and node-exporter
+    systemd:
+      name: "{{ item }}"
+      state: started
+      enabled: yes
+    with_items:
+      - node_exporter
+
+  - name: Allow prometheus and node_exporter on firewalld
+    firewalld:
+      port: "{{ item }}"
+      permanent: yes
+      state: enabled
+    with_items:
+      - '9100/tcp'
