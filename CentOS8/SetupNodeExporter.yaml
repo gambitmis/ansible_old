@@ -1,6 +1,6 @@
 ---
 - name: setup prometheus node exporter
-  hosts: prometheus node exporter
+  hosts: node_exporter
   tasks:
 
   - name: Add prometheus repository
