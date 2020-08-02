@@ -1,0 +1,15 @@
+---
+- name: Deploy nginxstatus.conf
+  hosts: nginx
+  tasks:
+  - name: Copy Config nginxstatus.conf to nginx server
+    copy:
+      src: /etc/nginx/conf.d/nginxstatus.conf
+      dest: /etc/nginx/conf.d/nginxstatus.conf
+      mode: '0644'
+      backup: yes
+
+  - name: reload service nginx
+    systemd:
+      name: nginx
+      state: reloaded
