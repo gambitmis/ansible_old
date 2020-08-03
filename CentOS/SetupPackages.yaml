@@ -1,0 +1,13 @@
+---
+- name: Install Utilization Packages
+  hosts: all
+  tasks:
+    - name: yum install utilz packages
+      yum:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - gcc
+          - build
+          - golang
