@@ -9,6 +9,21 @@
       packages:
       - yum-utils
 
+  - name: Remove old docker
+    yum:
+      name: "{{ package }}"
+      state: absent
+    vars:
+      package:
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logrotate
+      - docker-engine
+
   - name: add docker repo
     command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
