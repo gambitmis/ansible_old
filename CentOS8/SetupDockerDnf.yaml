@@ -28,7 +28,14 @@
     command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
   - name: install docker
-    command: yum install -y --nobest docker-ce docker-ce-cli containerd.io
+#   command: yum install -y --nobest docker-ce docker-ce-cli containerd.io
+    dnf:
+      allow_downgrade: yes
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+      state: installed
 
   - name: enable docker service
     systemd:
