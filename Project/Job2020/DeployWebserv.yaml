@@ -4,4 +4,19 @@
 
   - name: Install PHP-FPM
     import_playbook: /root/ansible/Project/Job2020/dnf-phpfpm.yaml
-    
+
+  - name: Start Service
+    hosts: web
+    tasks:
+
+    - name: Start Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: start PHP-FPM
+      systemd:
+         name: php-fpm
+         state: started
+         enabled: yes
