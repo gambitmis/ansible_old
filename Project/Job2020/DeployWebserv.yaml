@@ -3,5 +3,21 @@
     hosts: web
     tasks:
     
-    - name: Install nginx
+    - name: Install Nginx
+      include: dnf-nginx.yaml
+    
+    - name: Install PHP-FPM
+      include: dnf-phpfpm.yaml
+      
+    - name: Start service Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes
+        
+    - name: Start service PHP-FPM
+      systemd:
+        name: php-fpm
+        state: started
+        enabled: yes
     
