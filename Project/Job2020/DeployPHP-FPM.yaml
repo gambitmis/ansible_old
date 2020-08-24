@@ -1,0 +1,20 @@
+---
+  - name: Install PHP FPM
+    hosts: php
+    tasks:
+      - name: Install PHP FPM
+        dnf:
+          name:
+            - php-fpm
+            - php
+            - php-common
+            - php-xml
+            - php-mbstring
+            - php-json
+            - php-zip
+            - php-mysqlnd
+            - php-bcmath
+            - php-pdo
+            - php-json
+            - php-bcmath
+          state: latest
