@@ -1,0 +1,9 @@
+---
+  - name: Disable serivce Firewalld
+    hosts: all
+    tasks:
+    - name: Stop firewalld
+      systemd:
+        name: firewalld
+        state: stopped
+        enabled: no
