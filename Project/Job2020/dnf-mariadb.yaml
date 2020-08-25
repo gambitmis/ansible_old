@@ -1,0 +1,9 @@
+---
+  - name: Install Mariadb Server
+    hosts: db
+    tasks:
+
+      - name: dnf install mariadb
+        dnf:
+          name: mariadb-server
+          state: latest
