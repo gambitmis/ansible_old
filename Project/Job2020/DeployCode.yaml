@@ -1,0 +1,11 @@
+---
+  - name: Deploy code to Web server
+    hosts: web
+    tasks:
+      - name: Copy code from uat to web server
+        copy:
+          src: /var/uat/www/
+          dest: /var/www/html/
+          mode: 0644
+          owner: root
+          group: root
