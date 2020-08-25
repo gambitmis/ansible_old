@@ -1,0 +1,13 @@
+---
+  - name: Install Mariadb server
+    import_playbook: dnf-mariadb.yaml
+
+  - name: Start Service
+    hosts: db
+    tasks:
+
+    - name: Start Maraidb Server
+      systemd:
+        name: mariadb
+        state: started
+        enabled: yes
