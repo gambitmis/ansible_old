@@ -1,0 +1,46 @@
+---
+ - name: install kubeadm for init k8
+   hosts: docker
+   tasks:
+
+   - name: Load module for Kubernetes Recommence
+     copy:
+       dest: "/etc/modules-load.d/k8s.conf"
+       content: |
+         br_netfilter
+   
+   - name: Create sysctl for kubernetes Recommence
+     sysctl:
+       name: "{{ item }}"
+       state: present
+       value: 1
+       sysctl_file: /etc/sysctl.d/k8s.conf
+       reload: yes
+     loop:
+       - net.bridge.bridge-nf-call-ip6tables
+       - net.bridge.bridge-nf-call-iptables
+
+   - name: Add Kubernetes's Official GPG Key
+     apt_key:
+       url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+       state: present
+
+   - name: Add Kuberestes Repository
+     apt_repository:
+       repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+       state: present
+
+   - name: apt update & apt upgrade
+     apt:
+       update_cache: yes
+       upgrade: dist
+
+   - name: Install Kubernetes Platform
+     apt:
+       name: "{{ package }}"
+       state: present
+     vars:
+       package:
+       - kubelet
+       - kubeadm
+       - kubectl
